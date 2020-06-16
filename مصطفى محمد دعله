@@ -1,0 +1,288 @@
+CREATE TABLE [patients] (
+  [PatientID] INT NOT NULL	,
+  [FirstName] VARCHAR(50),
+  [LastName] VARCHAR(50),
+  [Gender] VARCHAR(50),
+  [Age] INT NOT NUL	,
+  [Address] VARCHAR(50),
+  PRIMARY KEY ([PatientID])
+);
+
+CREATE TABLE [Check_up] (
+  [CheckID] INT NOT NULL	,
+  [PatientID] INT NOT NULL,
+  [complains] VARCHAR(50),
+  [TreatID] INT NOT NULL,
+  [MedID] INT NOT NULL,
+  [Quantity] INT NOT NULL,
+  [Date] INT NOT NULL,
+  [equipID] INT NOT NULL,
+  PRIMARY KEY ([CheckID])
+);
+
+CREATE INDEX [FK] ON  [Check_up] ([PatientID], [TreatID], [MedID], [equipID]);
+
+CREATE TABLE [Treatments] (
+  [TreatID] INT NOT NULL,
+  [TreatType] VARCHAR(50),
+  PRIMARY KEY ([TreatID])
+);
+
+CREATE TABLE [Medicines] (
+  [MedID] INT NOT NULL,
+  [MedName] VARCHAR(50),
+  [Quantity] VARCHAR(50),
+  [Description] VARCHAR(50),
+  [Price] INT NOT NULL,
+  [RequestedDate] DATE NOT NULL,
+  PRIMARY KEY ([MedID])
+);
+
+CREATE TABLE [Equipment] (
+  [EquipID] INT NOT NULL,
+  [EquipName] VARCHAR(50),
+  [RequestedDate] DATE NOT NULL,
+  [DateDefected] DATE NOT NULL,
+  PRIMARY KEY ([EquipID])
+);
+
+
+
+
+
+
+
+1* Write an SQL query to find the position of the alphabet (‘a’) in the first name column ‘Amitabh’ from patients table.?
+
+Select INSTR(FIRST_NAME, BINARY'a') from patients where FIRST_NAME = 'Amitabh';
+
+--------
+2* Write an SQL query to print the FIRST_NAME from patients table after removing white spaces from the right side.?
+
+Select RTRIM(FIRST_NAME) from patients;
+--------
+3* Write an SQL query that fetches the unique values of Medicines from Worker table and prints its length?
+
+Select distinct length(Medicines ) from patients;
+------
+4* Write an SQL query to print the FIRST_NAME Patients table after replacing ‘a’ with ‘A’?
+
+Select REPLACE(FIRST_NAME,'a','A') from Patients;
+----------
+
+5*Write an SQL query to print the FIRST_NAME and LAST_NAME from Patients table into a single column COMPLETE_NAME. A space char should separate them?
+
+Select CONCAT(FIRST_NAME, ' ', LAST_NAME) AS 'COMPLETE_NAME' from Patients;
+--------
+6* Write an SQL query to print details for Patient with the first name as “Vipul” and “Satish” from Patients table.?
+
+Select * from Patients where FIRST_NAME in ('Vipul','Satish');
+ 
+------------
+7*  Write an SQL query to print details of Patient excluding last names, “Vipul” and “Satish” from Patients table.?
+
+Select * from Patients where LAST_NAME not in ('Vipul','Satish');
+
+
+---------
+
+8* Write an SQL query to show only odd rows from a table.??
+
+SELECT * FROM Patients WHERE MOD (Patients_ID, 2) <> 0;
+
+----------
+9* Write an SQL query to show only even rows from a table.??
+
+SELECT * FROM Patients WHERE MOD (Patients_ID, 2) = 0;
+---------
+10* Write an SQL query to clone a new table from another table.?
+
+SELECT * INTO PatientClone FROM Patients;
+SELECT * INTO PatientClone FROM Patients WHERE 1 = 0;
+CREATE TABLE PatientClone LIKE Patients;
+
+-------------
+
+11* Write an SQL query to fetch intersecting records of two tables?
+(SELECT * FROM Patients)
+INTERSECT
+(SELECT * FROM PatientClone);
+-------------
+12*  Write an SQL query to show the second highest Price from a table.?
+
+Select max(Price) from Medicines 
+where Price not in (Select max(Price) from Medicines);
+----------
+13* Write an SQL query to show one row twice in results from a table.?
+
+select FIRST_NAME, DEPARTMENT from worker W where W.DEPARTMENT='HR' 
+union all 
+select FIRST_NAME, DEPARTMENT from Worker W1 where W1.DEPARTMENT='HR';
+
+---------
+14* Write an SQL query to fetch intersecting records of two tables.?
+
+(SELECT * FROM Medicines)
+INTERSECT
+(SELECT * FROM MedicineClone);
+--------
+15* Write an SQL query to show the last record from a table?
+
+Select * from Patients where Patient_ID = (SELECT max(Patient_ID) from Patients);
+----------
+16* Write an SQL query to fetch the last five records from a table?
+
+SELECT * FROM Patients WHERE Patient_ID <=5
+UNION
+SELECT * FROM (SELECT * FROM Patient W order by W.Patient_ID DESC) AS W1 WHERE W1.Patient_ID <=5;
+
+-------
+17* Write an SQL query to fetch three max salaries from a table.?
+
+SELECT distinct Price from Medicines a WHERE 3 >= (SELECT count(distinct Price) from Medicines b WHERE a.Salary <= b.Salary) order by a.Price desc;
+--------
+18* Write an SQL query to fetch the names of Medicines who earn the highest Price.
+
+SELECT Medicin_NAME, SALARY from Medicines WHERE Price=(SELECT max(Price) from Medicines);
+
+-------
+19*Write an SQL query to fetch intersecting records of two tables?
+(SELECT * FROM Medicines)
+INTERSECT
+(SELECT * FROM MedicineClone);
+-------
+20* Write an SQL query to show the top n (say 10) records of a table.?
+
+
+SELECT * FROM Medicines  ORDER BY Salary DESC LIMIT 10;
+
+SELECT TOP 10 * FROM Medicines ORDER BY Price DESC;
+
+SELECT * FROM (SELECT * FROM Medicines ORDER BY Price DESC)
+WHERE ROWNUM <= 10;
+
+
+
+
+
+
+
+
+
+
+
+			select statments
+
+-- 6 insert statment
+
+INSERT INTO Patients VALUES(1,'Lotfy ','shawky',male,50,ALEX);
+INSERT INTO Patients VALUES(2,'Saad','fathy',male,40,CAIRO);
+INSERT INTO Patients VALUES(3,'Tarek','omar',male,55,ALEX);
+INSERT INTO Medicines VALUES(1,'kina',2,'Descrip',33 L.E,11/11);
+INSERT INTO Medicines VALUES(2,'revo',2,'Descrip',100L.E,20/12);
+
+
+
+
+
+
+-- 3 select using subquery
+
+
+SELECT * 
+   FROM Patients 
+   WHERE PatientID IN (SELECT PatientID
+         FROM Patients 
+         WHERE PatientID = 1) ;
+
+SELECT * 
+   FROM Equipments 
+   WHERE EquipmentID IN (SELECT EquipmentID
+         FROM Equipments 
+         WHERE EquipmentID = 1) ;
+
+SELECT * 
+   FROM Medicines 
+   WHERE MedicinName IN (SELECT MedicinName
+         FROM Medicines 
+         WHERE MedicinName = 'revoo') ;
+
+
+
+
+
+
+
+-- 2 select statments using count and group functions
+
+SELECT MedicintName, COUNT(*)  'count'
+FROM Medicines 
+GROUP BY MedicinName;
+
+SELECT Address, COUNT(*) 'count'
+FROM Patients 
+GROUP BY Address;
+
+
+
+
+
+
+-- 5 update statments
+
+UPDATE Medicines
+SET MedicinName = 'reno'
+WHERE MedicinID = 1;
+
+UPDATE Medicines
+SET MedicinName = 'kinakom'
+WHERE MedicinID = 2;
+
+UPDATE Medicines
+SET MedicinName = 'banadool'
+WHERE MedicinID = 3;
+
+UPDATE Patients
+SET Firstname = 'Naguib'
+WHERE PatientID = 1;
+
+UPDATE Patients
+SET Surname = 'Mafouz' 
+WHERE PatientID = 2;
+
+
+
+-- 5 select statements using different joins
+
+SELECT Patients.PatientID, Patients.PatientFirstName
+FROM Patients
+INNER JOIN Treat ON Patients.PatientID=Patients.PatientID;
+
+SELECT Patients.PatientID, Patients.PatientFirstName
+FROM Patients
+LEFT JOIN Book ON Patients.PatientID=Patients.PatientID;
+
+SELECT Patients.PatientID, Patient.PatientFirstName
+FROM Patients
+RIGHT JOIN Book ON Patients.PatientID=Patients.PatientID;
+
+SELECT Patients.PatientID, Patients.PatienttFirstName
+FROM Patients
+FULL JOIN Book ON Patients.PatientID=Patients.PatientID;
+
+SELECT Medicin.MedicinID, Medicin.MedicinID
+FROM Medicin
+INNER JOIN Medicines ON Medicin.MedicinID=Medicin.MedicinID;
+
+
+
+-- 5 delete statments
+
+DELETE FROM Patients WHERE PatientID= 1;
+DELETE FROM Patients WHERE PatientID= 2;
+DELETE FROM Patients WHERE PatientID= 3;
+DELETE FROM Medicines WHERE MedicinID= 1;
+DELETE FROM Medicines WHERE MedicinID= 1;
+
+
+
